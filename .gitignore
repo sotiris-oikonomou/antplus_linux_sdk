@@ -3,6 +3,10 @@ bin-debug/
 bin-release/
 [Oo]bj/
 [Bb]in/
+src/ANT_LIB/gccRelease/
+src/ANT_LIB/gccDebug/
+src/[Oo]bj/
+src/[Bb]in/
 
 # Other files and folders
 .settings/

@@ -1,63 +1,6 @@
-BUILD_OS=none
-# OS Specification Code (either auto detected or manually specified with the OS variable on command line
-# OSX will default to libusb if FRAMEWORK_TYPE is not specified.
-ifeq ($(OS), osx)
-    $(info OSX Specified)
-    BUILD_OS = osx
-else ifeq ($(OS), linux)
-    $(info Linux Specified)
-    BUILD_OS = linux
-else 
-    ifeq ($(OS),Windows_NT)
-        $(info Please use the Visual Studio Project for Windows)
-    else
-        UNAME_S := $(shell uname -s)
-        ifeq ($(UNAME_S),Darwin)
-            $(info OSX Detected)
-            BUILD_OS = osx
-        else ifeq ($(UNAME_S),Linux)
-            $(info Linux Detected)
-            BUILD_OS = linux
-        else
-            $(info Linux Assumed)
-            BUILD_OS = linux
-        endif
-    endif
-endif
+LINUX_DEBUG_OUTPUT_LIST=gccDebug/libraries/dsi_libusb_library_linux.o gccDebug/software/serial/dsi_serial_libusb_linux.o gccDebug/software/USB/device_handles/usb_device_handle_libusb_linux.o gccDebug/software/USB/device_handles/usb_device_handle_linux.o gccDebug/software/USB/devices/usb_device_libusb_linux.o 
 
-
-ifeq ($(BUILD_OS), linux)
-    LINUX_DEBUG_OUTPUT_LIST=gccDebug/libraries/dsi_libusb_library_linux.o gccDebug/software/serial/dsi_serial_libusb_linux.o gccDebug/software/USB/device_handles/usb_device_handle_libusb_linux.o gccDebug/software/USB/device_handles/usb_device_handle_linux.o gccDebug/software/USB/devices/usb_device_libusb_linux.o 
-    
-    LINUX_RELEASE_OUTPUT_LIST=gccRelease/libraries/dsi_libusb_library_linux.o gccRelease/software/serial/dsi_serial_libusb_linux.o gccRelease/software/USB/device_handles/usb_device_handle_libusb_linux.o gccRelease/software/USB/device_handles/usb_device_handle_linux.o gccRelease/software/USB/devices/usb_device_libusb_linux.o 
-    
-else ifeq ($(BUILD_OS), osx)
-    OSX_DEBUG_GENERAL_OUTPUT_LIST=gccDebug/libraries/dsi_libusb_library_mac.o gccDebug/software/serial/dsi_vcp_si.o gccDebug/software/USB/devices/usb_device_vcp.o gccDebug/software/USB/device_handles/usb_device_handle_vcp.o gccDebug/software/USB/device_handles/usb_device_handle_mac.o gccDebug/software/serial/dsi_serial_iokit.o gccDebug/software/USB/iokit_driver/iokit_device.o  gccDebug/software/USB/iokit_driver/iokit_device_handle.o gccDebug/software/USB/iokit_driver/iokit_device_list.o gccDebug/software/USB/iokit_driver/iokit_interface.o gccDebug/software/USB/iokit_driver/iokit_transfer.o gccDebug/software/USB/devices/usb_device_iokit.o gccDebug/software/USB/device_handles/usb_device_handle_si_iokit.o gccDebug/software/USB/device_handles/usb_device_handle_iokit.o 
-    
-    OSX_RELEASE_GENERAL_OUTPUT_LIST=gccRelease/libraries/dsi_libusb_library_mac.o gccRelease/software/serial/dsi_vcp_si.o gccRelease/software/USB/devices/usb_device_vcp.o gccRelease/software/USB/device_handles/usb_device_handle_vcp.o gccRelease/software/USB/device_handles/usb_device_handle_mac.o gccRelease/software/serial/dsi_serial_iokit.o gccRelease/software/USB/iokit_driver/iokit_device.o  gccRelease/software/USB/iokit_driver/iokit_device_handle.o gccRelease/software/USB/iokit_driver/iokit_device_list.o gccRelease/software/USB/iokit_driver/iokit_interface.o gccRelease/software/USB/iokit_driver/iokit_transfer.o gccRelease/software/USB/devices/usb_device_iokit.o gccRelease/software/USB/device_handles/usb_device_handle_si_iokit.o gccRelease/software/USB/device_handles/usb_device_handle_iokit.o 
-    
-    ifeq ($(FRAMEWORK_TYPE), iokit)
-        $(info using IOkit)
-        OSX_DEBUG_OUTPUT_LIST = $(OSX_DEBUG_GENERAL_OUTPUT_LIST)  
-        
-        OSX_RELEASE_OUTPUT_LIST = $(OSX_RELEASE_GENERAL_OUTPUT_LIST)  
-        
-    else ifeq ($(FRAMEWORK_TYPE), libusb)
-        $(info using libusb)
-        OSX_DEBUG_OUTPUT_LIST = $(OSX_DEBUG_GENERAL_OUTPUT_LIST) $(LINUX_DEBUG_OUTPUT_LIST) gccDebug/software/USB/devices/usb_device_libusb_mac.o  gccDebug/software/serial/dsi_serial_libusb_mac.o gccDebug/software/USB/device_handles/usb_device_handle_libusb_mac.o
-        
-        OSX_RELEASE_OUTPUT_LIST = $(OSX_RELEASE_GENERAL_OUTPUT_LIST) $(LINUX_RELEASE_OUTPUT_LIST) gccRelease/software/USB/devices/usb_device_libusb_mac.o gccRelease/software/serial/dsi_serial_libusb_mac.o gccRelease/software/USB/device_handles/usb_device_handle_libusb_mac.o
-        
-        LIBUSB_PREPROCESSOR=-D LIBUSB_DRIVER
-    else
-        $(info using libusb)
-        OSX_DEBUG_OUTPUT_LIST = $(OSX_DEBUG_GENERAL_OUTPUT_LIST) $(LINUX_DEBUG_OUTPUT_LIST) gccDebug/software/USB/devices/usb_device_libusb_mac.o  gccDebug/software/serial/dsi_serial_libusb_mac.o gccDebug/software/USB/device_handles/usb_device_handle_libusb_mac.o
-        
-        OSX_RELEASE_OUTPUT_LIST = $(OSX_RELEASE_GENERAL_OUTPUT_LIST) $(LINUX_RELEASE_OUTPUT_LIST)  gccRelease/software/USB/devices/usb_device_libusb_mac.o gccRelease/software/serial/dsi_serial_libusb_mac.o gccRelease/software/USB/device_handles/usb_device_handle_libusb_mac.o
-        FRAMEWORK_TYPE=libusb
-        LIBUSB_PREPROCESSOR=-D LIBUSB_DRIVER
-    endif
-endif
+LINUX_RELEASE_OUTPUT_LIST=gccRelease/libraries/dsi_libusb_library_linux.o gccRelease/software/serial/dsi_serial_libusb_linux.o gccRelease/software/USB/device_handles/usb_device_handle_libusb_linux.o gccRelease/software/USB/device_handles/usb_device_handle_linux.o gccRelease/software/USB/devices/usb_device_libusb_linux.o 
 
 GENERAL_DEBUG_OUTPUT_LIST=gccDebug/software/ANTFS/antfs_client_channel.o gccDebug/software/ANTFS/antfs_directory.o gccDebug/software/ANTFS/antfs_host.o gccDebug/software/ANTFS/antfs_host_channel.o gccDebug/common/checksum.o gccDebug/common/crc.o gccDebug/software/serial/device_management/dsi_ant_device.o gccDebug/software/system/dsi_convert.o gccDebug/software/system/dsi_debug.o gccDebug/software/serial/dsi_framer.o gccDebug/software/serial/dsi_framer_ant.o gccDebug/software/serial/dsi_framer_integrated_antfs_client.o gccDebug/software/serial/dsi_serial.o gccDebug/software/serial/dsi_serial_generic.o gccDebug/software/system/dsi_thread_posix.o gccDebug/software/system/dsi_timer.o gccDebug/software/system/macros.o gccDebug/software/USB/devices/usb_device.o
 
@@ -89,7 +32,7 @@ Release_Implicitly_Linked_Objects=gccRelease/libraries/*.o
 
 # Compiler flags...
 Debug_Compiler_Flags=-Wall -O0 -g
-Release_Compiler_Flags=-Wall -O2 
+Release_Compiler_Flags=-Wall -O2 -fPIC
 
 # ----------------------------------------------    
 # Builds all configurations for this project...
@@ -101,8 +44,8 @@ build_all_configurations: create_folders Debug Release
 # Builds the Debug configuration...
 # ----------------------------------------------    
 .PHONY: Debug
-Debug: $(GENERAL_DEBUG_OUTPUT_LIST) $(LINUX_DEBUG_OUTPUT_LIST) $(OSX_DEBUG_OUTPUT_LIST)
-	ar rcs gccDebug/libANT_LIB.a $(GENERAL_DEBUG_OUTPUT_LIST) $(LINUX_DEBUG_OUTPUT_LIST) $(OSX_DEBUG_OUTPUT_LIST) $(Debug_Implicitly_Linked_Objects)
+Debug: $(GENERAL_DEBUG_OUTPUT_LIST) $(LINUX_DEBUG_OUTPUT_LIST)
+	ar rcs gccDebug/libANT_LIB.a $(GENERAL_DEBUG_OUTPUT_LIST) $(LINUX_DEBUG_OUTPUT_LIST) $(Debug_Implicitly_Linked_Objects)
 
 # Compiles file software/ANTFS/antfs_client_channel.cpp for the Debug configuration...
 -include gccDebug/software/ANTFS/antfs_client_channel.d
@@ -279,121 +222,30 @@ gccDebug/software/USB/devices/usb_device_libusb_linux.o: software/USB/devices/us
 #	$(CPP_COMPILER) $(Debug_Preprocessor_Definitions) $(Debug_Compiler_Flags) -c software/USB/devices/usb_device_si.cpp $(Debug_Include_Path) -o gccDebug/software/USB/devices/usb_device_si.o
 #	$(CPP_COMPILER) $(Debug_Preprocessor_Definitions) $(Debug_Compiler_Flags) -MM software/USB/devices/usb_device_si.cpp $(Debug_Include_Path) > gccDebug/software/USB/devices/usb_device_si.d
 
-# Compiles file software/serial/WinDevice.cpp for the Debug configuration...
-#-include gccDebug/software/serial/WinDevice.d
-#gccDebug/software/serial/WinDevice.o: software/serial/WinDevice.cpp
-#	$(CPP_COMPILER) $(Debug_Preprocessor_Definitions) $(Debug_Compiler_Flags) -c software/serial/WinDevice.cpp $(Debug_Include_Path) -o gccDebug/software/serial/WinDevice.o
-#	$(CPP_COMPILER) $(Debug_Preprocessor_Definitions) $(Debug_Compiler_Flags) -MM software/serial/WinDevice.cpp $(Debug_Include_Path) > gccDebug/software/serial/WinDevice.d
-
-# OSX Files
-# Compiles file libraries/dsi_libusb_library_mac.cpp for the Debug configuration...
--include gccDebug/libraries/dsi_libusb_library_mac.d
-gccDebug/libraries/dsi_libusb_library_mac.o: libraries/dsi_libusb_library_mac.cpp
-	$(CPP_COMPILER) $(Debug_Preprocessor_Definitions) $(Debug_Compiler_Flags) -c libraries/dsi_libusb_library_mac.cpp $(Debug_Include_Path) -o gccDebug/libraries/dsi_libusb_library_mac.o
-	$(CPP_COMPILER) $(Debug_Preprocessor_Definitions) $(Debug_Compiler_Flags) -MM libraries/dsi_libusb_library_mac.cpp $(Debug_Include_Path) > gccDebug/libraries/dsi_libusb_library_mac.d
-
-# Compiles file software/serial/dsi_serial_libusb_mac.cpp for the Debug configuration...
--include gccDebug/software/serial/dsi_serial_libusb_mac.d
-gccDebug/software/serial/dsi_serial_libusb_mac.o: software/serial/dsi_serial_libusb_mac.cpp
-	$(CPP_COMPILER) $(Debug_Preprocessor_Definitions) $(Debug_Compiler_Flags) -c software/serial/dsi_serial_libusb_mac.cpp $(Debug_Include_Path) -o gccDebug/software/serial/dsi_serial_libusb_mac.o
-	$(CPP_COMPILER) $(Debug_Preprocessor_Definitions) $(Debug_Compiler_Flags) -MM software/serial/dsi_serial_libusb_mac.cpp $(Debug_Include_Path) > gccDebug/software/serial/dsi_serial_libusb_mac.d
-
-# Compiles file software/serial/dsi_serial_iokit.cpp for the Debug configuration...
--include gccDebug/software/serial/dsi_serial_iokit.d
-gccDebug/software/serial/dsi_serial_iokit.o: software/serial/dsi_serial_iokit.cpp
-	$(CPP_COMPILER) $(Debug_Preprocessor_Definitions) $(Debug_Compiler_Flags) -c software/serial/dsi_serial_iokit.cpp $(Debug_Include_Path) -o gccDebug/software/serial/dsi_serial_iokit.o
-	$(CPP_COMPILER) $(Debug_Preprocessor_Definitions) $(Debug_Compiler_Flags) -MM software/serial/dsi_serial_iokit.cpp $(Debug_Include_Path) > gccDebug/software/serial/dsi_serial_iokit.d
-
 # Compiles file software/serial/dsi_vcp_si.cpp for the Debug configuration...
 -include gccDebug/software/serial/dsi_vcp_si.d
 gccDebug/software/serial/dsi_vcp_si.o: software/serial/dsi_vcp_si.cpp
 	$(CPP_COMPILER) $(Debug_Preprocessor_Definitions) $(Debug_Compiler_Flags) -c software/serial/dsi_vcp_si.cpp $(Debug_Include_Path) -o gccDebug/software/serial/dsi_vcp_si.o
 	$(CPP_COMPILER) $(Debug_Preprocessor_Definitions) $(Debug_Compiler_Flags) -MM software/serial/dsi_vcp_si.cpp $(Debug_Include_Path) > gccDebug/software/serial/dsi_vcp_si.d
 
-    # Compiles file software/USB/device_handles/usb_device_handle_libusb_mac.cpp for the Debug configuration...
--include gccDebug/software/USB/device_handles/usb_device_handle_libusb_mac.d
-gccDebug/software/USB/device_handles/usb_device_handle_libusb_mac.o: software/USB/device_handles/usb_device_handle_libusb_mac.cpp
-	$(CPP_COMPILER) $(Debug_Preprocessor_Definitions) $(Debug_Compiler_Flags) -c software/USB/device_handles/usb_device_handle_libusb_mac.cpp $(Debug_Include_Path) -o gccDebug/software/USB/device_handles/usb_device_handle_libusb_mac.o
-	$(CPP_COMPILER) $(Debug_Preprocessor_Definitions) $(Debug_Compiler_Flags) -MM software/USB/device_handles/usb_device_handle_libusb_mac.cpp $(Debug_Include_Path) > gccDebug/software/USB/device_handles/usb_device_handle_libusb_mac.d
-
-# Compiles file software/USB/device_handles/usb_device_handle_iokit.cpp for the Debug configuration...
--include gccDebug/software/USB/device_handles/usb_device_handle_iokit.d
-gccDebug/software/USB/device_handles/usb_device_handle_iokit.o: software/USB/device_handles/usb_device_handle_iokit.cpp
-	$(CPP_COMPILER) $(Debug_Preprocessor_Definitions) $(Debug_Compiler_Flags) -c software/USB/device_handles/usb_device_handle_iokit.cpp $(Debug_Include_Path) -o gccDebug/software/USB/device_handles/usb_device_handle_iokit.o
-	$(CPP_COMPILER) $(Debug_Preprocessor_Definitions) $(Debug_Compiler_Flags) -MM software/USB/device_handles/usb_device_handle_iokit.cpp $(Debug_Include_Path) > gccDebug/software/USB/device_handles/usb_device_handle_iokit.d
-
-# Compiles file software/USB/device_handles/usb_device_handle_si_iokit.cpp for the Debug configuration...
--include gccDebug/software/USB/device_handles/usb_device_handle_si_iokit.d
-gccDebug/software/USB/device_handles/usb_device_handle_si_iokit.o: software/USB/device_handles/usb_device_handle_si_iokit.cpp
-	$(CPP_COMPILER) $(Debug_Preprocessor_Definitions) $(Debug_Compiler_Flags) -c software/USB/device_handles/usb_device_handle_si_iokit.cpp $(Debug_Include_Path) -o gccDebug/software/USB/device_handles/usb_device_handle_si_iokit.o
-	$(CPP_COMPILER) $(Debug_Preprocessor_Definitions) $(Debug_Compiler_Flags) -MM software/USB/device_handles/usb_device_handle_si_iokit.cpp $(Debug_Include_Path) > gccDebug/software/USB/device_handles/usb_device_handle_si_iokit.d
-
 # Compiles file software/USB/device_handles/usb_device_handle_vcp.cpp for the Debug configuration...
 -include gccDebug/software/USB/device_handles/usb_device_handle_vcp.d
 gccDebug/software/USB/device_handles/usb_device_handle_vcp.o: software/USB/device_handles/usb_device_handle_vcp.cpp
 	$(CPP_COMPILER) $(Debug_Preprocessor_Definitions) $(Debug_Compiler_Flags) -c software/USB/device_handles/usb_device_handle_vcp.cpp $(Debug_Include_Path) -o gccDebug/software/USB/device_handles/usb_device_handle_vcp.o
 	$(CPP_COMPILER) $(Debug_Preprocessor_Definitions) $(Debug_Compiler_Flags) -MM software/USB/device_handles/usb_device_handle_vcp.cpp $(Debug_Include_Path) > gccDebug/software/USB/device_handles/usb_device_handle_vcp.d
-
-# Compiles file software/USB/device_handles/usb_device_handle_mac.cpp for the Debug configuration...
--include gccDebug/software/USB/device_handles/usb_device_handle_mac.d
-gccDebug/software/USB/device_handles/usb_device_handle_mac.o: software/USB/device_handles/usb_device_handle_mac.cpp
-	$(CPP_COMPILER) $(Debug_Preprocessor_Definitions) $(Debug_Compiler_Flags) -c software/USB/device_handles/usb_device_handle_mac.cpp $(Debug_Include_Path) -o gccDebug/software/USB/device_handles/usb_device_handle_mac.o
-	$(CPP_COMPILER) $(Debug_Preprocessor_Definitions) $(Debug_Compiler_Flags) -MM software/USB/device_handles/usb_device_handle_mac.cpp $(Debug_Include_Path) > gccDebug/software/USB/device_handles/usb_device_handle_mac.d
-
-# Compiles file software/USB/devices/usb_device_libusb_mac.cpp for the Debug configuration...
--include gccDebug/software/USB/devices/usb_device_libusb_mac.d
-gccDebug/software/USB/devices/usb_device_libusb_mac.o: software/USB/devices/usb_device_libusb_mac.cpp
-	$(CPP_COMPILER) $(Debug_Preprocessor_Definitions) $(Debug_Compiler_Flags) -c software/USB/devices/usb_device_libusb_mac.cpp $(Debug_Include_Path) -o gccDebug/software/USB/devices/usb_device_libusb_mac.o
-	$(CPP_COMPILER) $(Debug_Preprocessor_Definitions) $(Debug_Compiler_Flags) -MM software/USB/devices/usb_device_libusb_mac.cpp $(Debug_Include_Path) > gccDebug/software/USB/devices/usb_device_libusb_mac.d
-
-# Compiles file software/USB/devices/usb_device_iokit.cpp for the Debug configuration...
--include gccDebug/software/USB/devices/usb_device_iokit.d
-gccDebug/software/USB/devices/usb_device_iokit.o: software/USB/devices/usb_device_iokit.cpp
-	$(CPP_COMPILER) $(Debug_Preprocessor_Definitions) $(Debug_Compiler_Flags) -c software/USB/devices/usb_device_iokit.cpp $(Debug_Include_Path) -o gccDebug/software/USB/devices/usb_device_iokit.o
-	$(CPP_COMPILER) $(Debug_Preprocessor_Definitions) $(Debug_Compiler_Flags) -MM software/USB/devices/usb_device_iokit.cpp $(Debug_Include_Path) > gccDebug/software/USB/devices/usb_device_iokit.d
     
 # Compiles file software/USB/devices/usb_device_vcp.cpp for the Debug configuration...
 -include gccDebug/software/USB/devices/usb_device_vcp.d
 gccDebug/software/USB/devices/usb_device_vcp.o: software/USB/devices/usb_device_vcp.cpp
 	$(CPP_COMPILER) $(Debug_Preprocessor_Definitions) $(Debug_Compiler_Flags) -c software/USB/devices/usb_device_vcp.cpp $(Debug_Include_Path) -o gccDebug/software/USB/devices/usb_device_vcp.o
 	$(CPP_COMPILER) $(Debug_Preprocessor_Definitions) $(Debug_Compiler_Flags) -MM software/USB/devices/usb_device_vcp.cpp $(Debug_Include_Path) > gccDebug/software/USB/devices/usb_device_vcp.d
-    
-# Compiles file software/USB/iokit_driver/iokit_device.cpp for the Debug configuration...
--include gccDebug/software/USB/iokit_driver/iokit_device.d
-gccDebug/software/USB/iokit_driver/iokit_device.o: software/USB/iokit_driver/iokit_device.cpp
-	$(CPP_COMPILER) $(Debug_Preprocessor_Definitions) $(Debug_Compiler_Flags) -c software/USB/iokit_driver/iokit_device.cpp $(Debug_Include_Path) -o gccDebug/software/USB/iokit_driver/iokit_device.o
-	$(CPP_COMPILER) $(Debug_Preprocessor_Definitions) $(Debug_Compiler_Flags) -MM software/USB/iokit_driver/iokit_device.cpp $(Debug_Include_Path) > gccDebug/software/USB/iokit_driver/iokit_device.d
-
-# Compiles file software/USB/iokit_driver/iokit_device_handle.cpp for the Debug configuration...
--include gccDebug/software/USB/iokit_driver/iokit_device_handle.d
-gccDebug/software/USB/iokit_driver/iokit_device_handle.o: software/USB/iokit_driver/iokit_device_handle.cpp
-	$(CPP_COMPILER) $(Debug_Preprocessor_Definitions) $(Debug_Compiler_Flags) -c software/USB/iokit_driver/iokit_device_handle.cpp $(Debug_Include_Path) -o gccDebug/software/USB/iokit_driver/iokit_device_handle.o
-	$(CPP_COMPILER) $(Debug_Preprocessor_Definitions) $(Debug_Compiler_Flags) -MM software/USB/iokit_driver/iokit_device_handle.cpp $(Debug_Include_Path) > gccDebug/software/USB/iokit_driver/iokit_device_handle.d
-
-# Compiles file software/USB/iokit_driver/iokit_device_list.cpp for the Debug configuration...
--include gccDebug/software/USB/iokit_driver/iokit_device_list.d
-gccDebug/software/USB/iokit_driver/iokit_device_list.o: software/USB/iokit_driver/iokit_device_list.cpp
-	$(CPP_COMPILER) $(Debug_Preprocessor_Definitions) $(Debug_Compiler_Flags) -c software/USB/iokit_driver/iokit_device_list.cpp $(Debug_Include_Path) -o gccDebug/software/USB/iokit_driver/iokit_device_list.o
-	$(CPP_COMPILER) $(Debug_Preprocessor_Definitions) $(Debug_Compiler_Flags) -MM software/USB/iokit_driver/iokit_device_list.cpp $(Debug_Include_Path) > gccDebug/software/USB/iokit_driver/iokit_device_list.d
-
-# Compiles file software/USB/iokit_driver/iokit_interface.cpp for the Debug configuration...
--include gccDebug/software/USB/iokit_driver/iokit_interface.d
-gccDebug/software/USB/iokit_driver/iokit_interface.o: software/USB/iokit_driver/iokit_interface.cpp
-	$(CPP_COMPILER) $(Debug_Preprocessor_Definitions) $(Debug_Compiler_Flags) -c software/USB/iokit_driver/iokit_interface.cpp $(Debug_Include_Path) -o gccDebug/software/USB/iokit_driver/iokit_interface.o
-	$(CPP_COMPILER) $(Debug_Preprocessor_Definitions) $(Debug_Compiler_Flags) -MM software/USB/iokit_driver/iokit_interface.cpp $(Debug_Include_Path) > gccDebug/software/USB/iokit_driver/iokit_interface.d
-
-# Compiles file software/USB/iokit_driver/iokit_transfer.cpp for the Debug configuration...
--include gccDebug/software/USB/iokit_driver/iokit_transfer.d
-gccDebug/software/USB/iokit_driver/iokit_transfer.o: software/USB/iokit_driver/iokit_transfer.cpp
-	$(CPP_COMPILER) $(Debug_Preprocessor_Definitions) $(Debug_Compiler_Flags) -c software/USB/iokit_driver/iokit_transfer.cpp $(Debug_Include_Path) -o gccDebug/software/USB/iokit_driver/iokit_transfer.o
-	$(CPP_COMPILER) $(Debug_Preprocessor_Definitions) $(Debug_Compiler_Flags) -MM software/USB/iokit_driver/iokit_transfer.cpp $(Debug_Include_Path) > gccDebug/software/USB/iokit_driver/iokit_transfer.d
 
 # ----------------------------------------------    
 # Builds the Release configuration...
 # ----------------------------------------------    
 .PHONY: Release
-Release: $(GENERAL_RELEASE_OUTPUT_LIST) $(LINUX_RELEASE_OUTPUT_LIST) $(OSX_RELEASE_OUTPUT_LIST)
-	ar rcs gccRelease/libANT_LIB.a $(GENERAL_RELEASE_OUTPUT_LIST) $(LINUX_RELEASE_OUTPUT_LIST) $(OSX_RELEASE_OUTPUT_LIST) $(Release_Implicitly_Linked_Objects)
+Release: $(GENERAL_RELEASE_OUTPUT_LIST) $(LINUX_RELEASE_OUTPUT_LIST)
+	ar rcs gccRelease/libANT_LIB.a $(GENERAL_RELEASE_OUTPUT_LIST) $(LINUX_RELEASE_OUTPUT_LIST) $(Release_Implicitly_Linked_Objects)
     
 # Compiles file software/ANTFS/antfs_client_channel.cpp for the Release configuration...
 -include gccRelease/software/ANTFS/antfs_client_channel.d
@@ -575,48 +427,11 @@ gccRelease/software/USB/devices/usb_device_libusb_linux.o: software/USB/devices/
 #	$(CPP_COMPILER) $(Release_Preprocessor_Definitions) $(Release_Compiler_Flags) -c software/serial/WinDevice.cpp $(Release_Include_Path) -o gccRelease/software/serial/WinDevice.o
 #	$(CPP_COMPILER) $(Release_Preprocessor_Definitions) $(Release_Compiler_Flags) -MM software/serial/WinDevice.cpp $(Release_Include_Path) > gccRelease/software/serial/WinDevice.d
 
-# OSX Files
-# Compiles file libraries/dsi_libusb_library_mac.cpp for the Release configuration...
--include gccRelease/libraries/dsi_libusb_library_mac.d
-gccRelease/libraries/dsi_libusb_library_mac.o: libraries/dsi_libusb_library_mac.cpp
-	$(CPP_COMPILER) $(Release_Preprocessor_Definitions) $(Release_Compiler_Flags) -c libraries/dsi_libusb_library_mac.cpp $(Release_Include_Path) -o gccRelease/libraries/dsi_libusb_library_mac.o
-	$(CPP_COMPILER) $(Release_Preprocessor_Definitions) $(Release_Compiler_Flags) -MM libraries/dsi_libusb_library_mac.cpp $(Release_Include_Path) > gccRelease/libraries/dsi_libusb_library_mac.d
-
-# Compiles file software/serial/dsi_serial_libusb_mac.cpp for the Release configuration...
--include gccRelease/software/serial/dsi_serial_libusb_mac.d
-gccRelease/software/serial/dsi_serial_libusb_mac.o: software/serial/dsi_serial_libusb_mac.cpp
-	$(CPP_COMPILER) $(Release_Preprocessor_Definitions) $(Release_Compiler_Flags) -c software/serial/dsi_serial_libusb_mac.cpp $(Release_Include_Path) -o gccRelease/software/serial/dsi_serial_libusb_mac.o
-	$(CPP_COMPILER) $(Release_Preprocessor_Definitions) $(Release_Compiler_Flags) -MM software/serial/dsi_serial_libusb_mac.cpp $(Release_Include_Path) > gccRelease/software/serial/dsi_serial_libusb_mac.d
-
-# Compiles file software/serial/dsi_serial_iokit.cpp for the Release configuration...
--include gccRelease/software/serial/dsi_serial_iokit.d
-gccRelease/software/serial/dsi_serial_iokit.o: software/serial/dsi_serial_iokit.cpp
-	$(CPP_COMPILER) $(Release_Preprocessor_Definitions) $(Release_Compiler_Flags) -c software/serial/dsi_serial_iokit.cpp $(Release_Include_Path) -o gccRelease/software/serial/dsi_serial_iokit.o
-	$(CPP_COMPILER) $(Release_Preprocessor_Definitions) $(Release_Compiler_Flags) -MM software/serial/dsi_serial_iokit.cpp $(Release_Include_Path) > gccRelease/software/serial/dsi_serial_iokit.d
-
 # Compiles file software/serial/dsi_vcp_si.cpp for the Release configuration...
 -include gccRelease/software/serial/dsi_vcp_si.d
 gccRelease/software/serial/dsi_vcp_si.o: software/serial/dsi_vcp_si.cpp
 	$(CPP_COMPILER) $(Release_Preprocessor_Definitions) $(Release_Compiler_Flags) -c software/serial/dsi_vcp_si.cpp $(Release_Include_Path) -o gccRelease/software/serial/dsi_vcp_si.o
 	$(CPP_COMPILER) $(Release_Preprocessor_Definitions) $(Release_Compiler_Flags) -MM software/serial/dsi_vcp_si.cpp $(Release_Include_Path) > gccRelease/software/serial/dsi_vcp_si.d
-
-# Compiles file software/USB/device_handles/usb_device_handle_libusb_mac.cpp for the Release configuration...
--include gccRelease/software/USB/device_handles/usb_device_handle_libusb_mac.d
-gccRelease/software/USB/device_handles/usb_device_handle_libusb_mac.o: software/USB/device_handles/usb_device_handle_libusb_mac.cpp
-	$(CPP_COMPILER) $(Release_Preprocessor_Definitions) $(Release_Compiler_Flags) -c software/USB/device_handles/usb_device_handle_libusb_mac.cpp $(Release_Include_Path) -o gccRelease/software/USB/device_handles/usb_device_handle_libusb_mac.o
-	$(CPP_COMPILER) $(Release_Preprocessor_Definitions) $(Release_Compiler_Flags) -MM software/USB/device_handles/usb_device_handle_libusb_mac.cpp $(Release_Include_Path) > gccRelease/software/USB/device_handles/usb_device_handle_libusb_mac.d
-
-# Compiles file software/USB/device_handles/usb_device_handle_iokit.cpp for the Release configuration...
--include gccRelease/software/USB/device_handles/usb_device_handle_iokit.d
-gccRelease/software/USB/device_handles/usb_device_handle_iokit.o: software/USB/device_handles/usb_device_handle_iokit.cpp
-	$(CPP_COMPILER) $(Release_Preprocessor_Definitions) $(Release_Compiler_Flags) -c software/USB/device_handles/usb_device_handle_iokit.cpp $(Release_Include_Path) -o gccRelease/software/USB/device_handles/usb_device_handle_iokit.o
-	$(CPP_COMPILER) $(Release_Preprocessor_Definitions) $(Release_Compiler_Flags) -MM software/USB/device_handles/usb_device_handle_iokit.cpp $(Release_Include_Path) > gccRelease/software/USB/device_handles/usb_device_handle_iokit.d
-
-# Compiles file software/USB/device_handles/usb_device_handle_si_iokit.cpp for the Release configuration...
--include gccRelease/software/USB/device_handles/usb_device_handle_si_iokit.d
-gccRelease/software/USB/device_handles/usb_device_handle_si_iokit.o: software/USB/device_handles/usb_device_handle_si_iokit.cpp
-	$(CPP_COMPILER) $(Release_Preprocessor_Definitions) $(Release_Compiler_Flags) -c software/USB/device_handles/usb_device_handle_si_iokit.cpp $(Release_Include_Path) -o gccRelease/software/USB/device_handles/usb_device_handle_si_iokit.o
-	$(CPP_COMPILER) $(Release_Preprocessor_Definitions) $(Release_Compiler_Flags) -MM software/USB/device_handles/usb_device_handle_si_iokit.cpp $(Release_Include_Path) > gccRelease/software/USB/device_handles/usb_device_handle_si_iokit.d
 
 # Compiles file software/USB/device_handles/usb_device_handle_vcp.cpp for the Release configuration...
 -include gccRelease/software/USB/device_handles/usb_device_handle_vcp.d
@@ -624,61 +439,11 @@ gccRelease/software/USB/device_handles/usb_device_handle_vcp.o: software/USB/dev
 	$(CPP_COMPILER) $(Release_Preprocessor_Definitions) $(Release_Compiler_Flags) -c software/USB/device_handles/usb_device_handle_vcp.cpp $(Release_Include_Path) -o gccRelease/software/USB/device_handles/usb_device_handle_vcp.o
 	$(CPP_COMPILER) $(Release_Preprocessor_Definitions) $(Release_Compiler_Flags) -MM software/USB/device_handles/usb_device_handle_vcp.cpp $(Release_Include_Path) > gccRelease/software/USB/device_handles/usb_device_handle_vcp.d
 
-# Compiles file software/USB/device_handles/usb_device_handle_mac.cpp for the Release configuration...
--include gccRelease/software/USB/device_handles/usb_device_handle_mac.d
-gccRelease/software/USB/device_handles/usb_device_handle_mac.o: software/USB/device_handles/usb_device_handle_mac.cpp
-	$(CPP_COMPILER) $(Release_Preprocessor_Definitions) $(Release_Compiler_Flags) -c software/USB/device_handles/usb_device_handle_mac.cpp $(Release_Include_Path) -o gccRelease/software/USB/device_handles/usb_device_handle_mac.o
-	$(CPP_COMPILER) $(Release_Preprocessor_Definitions) $(Release_Compiler_Flags) -MM software/USB/device_handles/usb_device_handle_mac.cpp $(Release_Include_Path) > gccRelease/software/USB/device_handles/usb_device_handle_mac.d
-
-# Compiles file software/USB/devices/usb_device_libusb_mac.cpp for the Release configuration...
--include gccRelease/software/USB/devices/usb_device_libusb_mac.d
-gccRelease/software/USB/devices/usb_device_libusb_mac.o: software/USB/devices/usb_device_libusb_mac.cpp
-	$(CPP_COMPILER) $(Release_Preprocessor_Definitions) $(Release_Compiler_Flags) -c software/USB/devices/usb_device_libusb_mac.cpp $(Release_Include_Path) -o gccRelease/software/USB/devices/usb_device_libusb_mac.o
-	$(CPP_COMPILER) $(Release_Preprocessor_Definitions) $(Release_Compiler_Flags) -MM software/USB/devices/usb_device_libusb_mac.cpp $(Release_Include_Path) > gccRelease/software/USB/devices/usb_device_libusb_mac.d
-
-# Compiles file software/USB/devices/usb_device_iokit.cpp for the Release configuration...
--include gccRelease/software/USB/devices/usb_device_iokit.d
-gccRelease/software/USB/devices/usb_device_iokit.o: software/USB/devices/usb_device_iokit.cpp
-	$(CPP_COMPILER) $(Release_Preprocessor_Definitions) $(Release_Compiler_Flags) -c software/USB/devices/usb_device_iokit.cpp $(Release_Include_Path) -o gccRelease/software/USB/devices/usb_device_iokit.o
-	$(CPP_COMPILER) $(Release_Preprocessor_Definitions) $(Release_Compiler_Flags) -MM software/USB/devices/usb_device_iokit.cpp $(Release_Include_Path) > gccRelease/software/USB/devices/usb_device_iokit.d
-    
 # Compiles file software/USB/devices/usb_device_vcp.cpp for the Release configuration...
 -include gccRelease/software/USB/devices/usb_device_vcp.d
 gccRelease/software/USB/devices/usb_device_vcp.o: software/USB/devices/usb_device_vcp.cpp
 	$(CPP_COMPILER) $(Release_Preprocessor_Definitions) $(Release_Compiler_Flags) -c software/USB/devices/usb_device_vcp.cpp $(Release_Include_Path) -o gccRelease/software/USB/devices/usb_device_vcp.o
 	$(CPP_COMPILER) $(Release_Preprocessor_Definitions) $(Release_Compiler_Flags) -MM software/USB/devices/usb_device_vcp.cpp $(Release_Include_Path) > gccRelease/software/USB/devices/usb_device_vcp.d
-    
-# Compiles file software/USB/iokit_driver/iokit_device.cpp for the Release configuration...
--include gccRelease/software/USB/iokit_driver/iokit_device.d
-gccRelease/software/USB/iokit_driver/iokit_device.o: software/USB/iokit_driver/iokit_device.cpp
-	$(CPP_COMPILER) $(Release_Preprocessor_Definitions) $(Release_Compiler_Flags) -c software/USB/iokit_driver/iokit_device.cpp $(Release_Include_Path) -o gccRelease/software/USB/iokit_driver/iokit_device.o
-	$(CPP_COMPILER) $(Release_Preprocessor_Definitions) $(Release_Compiler_Flags) -MM software/USB/iokit_driver/iokit_device.cpp $(Release_Include_Path) > gccRelease/software/USB/iokit_driver/iokit_device.d
-
-# Compiles file software/USB/iokit_driver/iokit_device_handle.cpp for the Release configuration...
--include gccRelease/software/USB/iokit_driver/iokit_device_handle.d
-gccRelease/software/USB/iokit_driver/iokit_device_handle.o: software/USB/iokit_driver/iokit_device_handle.cpp
-	$(CPP_COMPILER) $(Release_Preprocessor_Definitions) $(Release_Compiler_Flags) -c software/USB/iokit_driver/iokit_device_handle.cpp $(Release_Include_Path) -o gccRelease/software/USB/iokit_driver/iokit_device_handle.o
-	$(CPP_COMPILER) $(Release_Preprocessor_Definitions) $(Release_Compiler_Flags) -MM software/USB/iokit_driver/iokit_device_handle.cpp $(Release_Include_Path) > gccRelease/software/USB/iokit_driver/iokit_device_handle.d
-
-# Compiles file software/USB/iokit_driver/iokit_device_list.cpp for the Release configuration...
--include gccRelease/software/USB/iokit_driver/iokit_device_list.d
-gccRelease/software/USB/iokit_driver/iokit_device_list.o: software/USB/iokit_driver/iokit_device_list.cpp
-	$(CPP_COMPILER) $(Release_Preprocessor_Definitions) $(Release_Compiler_Flags) -c software/USB/iokit_driver/iokit_device_list.cpp $(Release_Include_Path) -o gccRelease/software/USB/iokit_driver/iokit_device_list.o
-	$(CPP_COMPILER) $(Release_Preprocessor_Definitions) $(Release_Compiler_Flags) -MM software/USB/iokit_driver/iokit_device_list.cpp $(Release_Include_Path) > gccRelease/software/USB/iokit_driver/iokit_device_list.d
-
-# Compiles file software/USB/iokit_driver/iokit_interface.cpp for the Release configuration...
--include gccRelease/software/USB/iokit_driver/iokit_interface.d
-gccRelease/software/USB/iokit_driver/iokit_interface.o: software/USB/iokit_driver/iokit_interface.cpp
-	$(CPP_COMPILER) $(Release_Preprocessor_Definitions) $(Release_Compiler_Flags) -c software/USB/iokit_driver/iokit_interface.cpp $(Release_Include_Path) -o gccRelease/software/USB/iokit_driver/iokit_interface.o
-	$(CPP_COMPILER) $(Release_Preprocessor_Definitions) $(Release_Compiler_Flags) -MM software/USB/iokit_driver/iokit_interface.cpp $(Release_Include_Path) > gccRelease/software/USB/iokit_driver/iokit_interface.d
-
-# Compiles file software/USB/iokit_driver/iokit_transfer.cpp for the Release configuration...
--include gccRelease/software/USB/iokit_driver/iokit_transfer.d
-gccRelease/software/USB/iokit_driver/iokit_transfer.o: software/USB/iokit_driver/iokit_transfer.cpp
-	$(CPP_COMPILER) $(Release_Preprocessor_Definitions) $(Release_Compiler_Flags) -c software/USB/iokit_driver/iokit_transfer.cpp $(Release_Include_Path) -o gccRelease/software/USB/iokit_driver/iokit_transfer.o
-	$(CPP_COMPILER) $(Release_Preprocessor_Definitions) $(Release_Compiler_Flags) -MM software/USB/iokit_driver/iokit_transfer.cpp $(Release_Include_Path) > gccRelease/software/USB/iokit_driver/iokit_transfer.d
-
-    
     
 # ----------------------------------------------    
 # Creates the intermediate and output folders for each configuration...
@@ -689,7 +454,6 @@ create_folders:
 	rm -rf gccRelease
 	mkdir -p gccDebug/software/USB/device_handles
 	mkdir -p gccDebug/software/USB/devices
-	mkdir -p gccDebug/software/USB/iokit_driver
 	mkdir -p gccDebug/software/system
 	mkdir -p gccDebug/software/serial/device_management
 	mkdir -p gccDebug/software/ANTFS
@@ -697,29 +461,12 @@ create_folders:
 	mkdir -p gccDebug/common
 	mkdir -p gccRelease/software/USB/device_handles
 	mkdir -p gccRelease/software/USB/devices
-	mkdir -p gccRelease/software/USB/iokit_driver
 	mkdir -p gccRelease/software/system 
 	mkdir -p gccRelease/software/serial/device_management
 	mkdir -p gccRelease/software/ANTFS
 	mkdir -p gccRelease/libraries
 	mkdir -p gccRelease/common
-    
-    # Linux libusb
-    ifeq ($(BUILD_OS), linux)
-		echo "Unpacking and building libudev & libusb-1.0..."
-		tar xvjf libraries/libudev/udev_*.* && cd udev* && ./configure && make && cp libudev/.libs/libudev*.o ../gccDebug/libraries && cp libudev/.libs/libudev*.o ../gccRelease/libraries && cd .. && rm -R udev*
-		tar xvjf libraries/libusb-1.0/libusb-1.0.* && cd libusb-1.0.*  && ./configure && make && cp libusb/libusb*.o ../gccDebug/libraries && cp libusb/os/libusb*.o ../gccDebug/libraries && cp libusb/os/libusb*.o ../gccRelease/libraries && mv libusb/libusb*.o ../gccRelease/libraries && cd ..  && rm -R libusb-1.0.*
-        
-    # OSX libusb
-    else ifeq ($(BUILD_OS), osx)
-        ifeq ($(FRAMEWORK_TYPE), libusb)
-			echo "Unpacking and building libusb-1.0..."
-			tar -zxvf libraries/libusb-1.0/libusb-1.0.* && cd libusb-1.0.*  && ./configure && make && cp libusb/libusb*.o ../gccDebug/libraries && cp libusb/os/libusb*.o ../gccDebug/libraries && cp libusb/os/libusb*.o ../gccRelease/libraries && mv libusb/libusb*.o ../gccRelease/libraries && cd ..  && rm -R libusb-1.0.*
-        endif
-    endif
 
-    
-    
 # ----------------------------------------------    
 # Cleans intermediate and output files (objects, libraries, executables)...
 # ----------------------------------------------    
