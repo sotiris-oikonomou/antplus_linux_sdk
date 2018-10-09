@@ -48,7 +48,7 @@ BOOL LibusbDeviceMatch(const USBDeviceLibusb* const & pclDevice_)
 
 BOOL CanOpenDevice(const USBDeviceLibusb*const & pclDevice_)  //!!Should we make a static member function that does a more efficient try open (doesn't start a receive thread, etc.)
 {
-   if(pclDevice_ == FALSE)
+   if(pclDevice_ == nullptr)
       return FALSE;
 
    return USBDeviceHandleLibusb::TryOpen(*pclDevice_);

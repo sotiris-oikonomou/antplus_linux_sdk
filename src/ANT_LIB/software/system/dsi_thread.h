@@ -14,7 +14,9 @@ All rights reserved.
 #if defined(DSI_TYPES_WINDOWS)
    #include <windows.h>
 #elif defined(DSI_TYPES_MACINTOSH) || defined(DSI_TYPES_LINUX)
-   #define _GNU_SOURCE
+   #ifndef _GNU_SOURCE
+    #define _GNU_SOURCE
+   #endif
    #include <pthread.h>
 #endif
 
