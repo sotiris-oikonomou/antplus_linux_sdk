@@ -1,4 +1,4 @@
-# antplus_linux_sdk
+# Ant+ Linux SDK
 The Official ANT Linux SDK (From https://www.thisisant.com) with some modifications so it compiles successfully in Linux.
 
 I have removed the libusb and libudev included libraries and the compilation only depends on those existing in the Linux system being compiled on to. I have also removed all references to MacOS as this is the linux SDK and a separate SDK for MacOS exists.
